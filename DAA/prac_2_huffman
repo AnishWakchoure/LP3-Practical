@@ -1,0 +1,31 @@
+import heapq
+
+def huffman(freq):
+  heap = []
+  for f, ch in freq.items():
+    heap.append( [ f, [[ch, ""]] ] ) #[5, [['A', ""]] ]
+  heapq.heapify(heap)
+
+  while len(heap)>1:
+    left = heapq.heappop(heap)
+    right = heapq.heappop(heap)
+
+    for pair in left[1]:
+      pair[1] = '0' + pair[1]
+
+    for pair in right[1]:
+      pair[1] = '1' + pair[1]
+
+    heapq.heappush(heap, 
+     [
+         left[0] + right[0],
+         left[1] + right[1] 
+     ])
+    
+  return sorted(heap[0][1])
+
+
+freq = {'A':21, 'B':3, 'C':6, 'D':13, 'E':7}
+
+for ch, code in huffman(freq):
+  print(ch, ' : ', code)
